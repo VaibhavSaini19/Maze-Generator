@@ -60,13 +60,13 @@ class PrimsMaze:
 
             self.walls_list.remove((wall_x, wall_y))
             ''' 
-            '''
             img = self.grid                 # Display maze while building
             plt.figure(1)
             plt.clf()
             plt.imshow(img)
             plt.title('Maze')
             plt.pause(0.005)
+            '''
 
         plt.pause(5)
 
@@ -83,10 +83,11 @@ if __name__ == "__main__":
     size = 25
     start = (0, 0)                        # start <= (size, size)
     obj = PrimsMaze(size)
-    maze = obj.create_maze(start)
+    maze = obj.create_maze(start).tolist()
+    print(maze)
     '''                                     # Display final maze
+    '''
     plt.figure(figsize=(10, 5))
     plt.imshow(maze, interpolation='nearest')
     plt.xticks([]), plt.yticks([])
     plt.show()
-    '''
