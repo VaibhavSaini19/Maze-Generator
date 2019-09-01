@@ -3,10 +3,11 @@ import matplotlib.pyplot as plt
 
 
 class PrimsMaze:
-    def __init__(self, size=25):
+    def __init__(self, size=25, show_maze=True):
         self.size = (size // 2) * 2 + 1
+        self.show_maze = show_maze
         self.walls_list = []
-        self.grid = np.zeros((self.size, self.size), dtype=int)
+        self.grid = np.full((self.size, self.size), -50, dtype=int)
         for i in range(size//2+1):
             for j in range(size//2+1):
                 self.grid[i*2, j*2] = -1
@@ -34,7 +35,6 @@ class PrimsMaze:
         while len(self.walls_list):
             ind = np.random.randint(0, len(self.walls_list))
             wall_x, wall_y = self.walls_list[ind]
-
             if self.is_valid((wall_x, wall_y), -1, 0) and self.is_valid((wall_x, wall_y), 1, 0):
                 top = wall_x-1, wall_y
                 bottom = wall_x+1, wall_y
@@ -46,6 +46,7 @@ class PrimsMaze:
                     self.grid[wall_x, wall_y] = 1
                     self.grid[top] = 1
                     self.add_neighbors(top)
+                self.walls_list.remove((wall_x, wall_y))
             if self.is_valid((wall_x, wall_y), 0, 1) and self.is_valid((wall_x, wall_y), 0, -1):
                 left = wall_x, wall_y-1
                 right = wall_x, wall_y+1
@@ -57,16 +58,18 @@ class PrimsMaze:
                     self.grid[wall_x, wall_y] = 1
                     self.grid[left] = 1
                     self.add_neighbors(left)
+                self.walls_list.remove((wall_x, wall_y))
 
-            self.walls_list.remove((wall_x, wall_y))
             ''' 
-            img = self.grid                 # Display maze while building
-            plt.figure(1)
-            plt.clf()
-            plt.imshow(img)
-            plt.title('Maze')
-            plt.pause(0.005)
             '''
+            if self.show_maze:
+                img = self.grid                 # Display maze while building
+                plt.figure(1)
+                plt.clf()
+                plt.imshow(img)
+                plt.title('Maze')
+                plt.pause(0.005)
+                #plt.pause(5)
 
         plt.pause(5)
 
@@ -80,14 +83,14 @@ class PrimsMaze:
 
 
 if __name__ == "__main__":
-    size = 25
+    size = 10
     start = (0, 0)                        # start <= (size, size)
     obj = PrimsMaze(size)
     maze = obj.create_maze(start).tolist()
-    print(maze)
+    #print(maze)
     '''                                     # Display final maze
-    '''
     plt.figure(figsize=(10, 5))
     plt.imshow(maze, interpolation='nearest')
     plt.xticks([]), plt.yticks([])
     plt.show()
+    '''
