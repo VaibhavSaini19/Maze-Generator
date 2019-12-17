@@ -83,14 +83,14 @@ class PrimsMaze:
 
 
 if __name__ == "__main__":
-    size = 10
+    size = input("Enter size of maze (example: 10):- ")
     start = (0, 0)                        # start <= (size, size)
     obj = PrimsMaze(size)
     maze = obj.create_maze(start).tolist()
     #print(maze)
-    '''                                     # Display final maze
+    '''                                    
     plt.figure(figsize=(10, 5))
     plt.imshow(maze, interpolation='nearest')
     plt.xticks([]), plt.yticks([])
-    plt.show()
+    plt.show()                              # Display final maze
     '''
